@@ -1,0 +1,45 @@
+---
+- name: Deploy Static Website on Apache Server
+  hosts: webservers
+  become: yes   # Run tasks with sudo
+
+  vars:
+    apache_package: apache2
+    web_root: /var/www/html
+    src_dir: ./website   # Local directory containing your static site files
+
+  tasks:
+    - name: Install Apache
+      apt:
+        name: apache2
+        state: present
+        update_cache: yes
+
+    - name: Ensure Apache is running
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+
+    - name: Copy website files to server
+      copy:
+        src: index.html
+        dest: /var/www/html
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Set proper permissions on web root
+      file:
+        path: /var/www/html
+        owner: root
+        group: root
+        mode: '0755'
+        state: directory
+        recurse: yes
+
+    - name: Restart Apache
+      service:
+        name: apache2
+        state: restarted
+

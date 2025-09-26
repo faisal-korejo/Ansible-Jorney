@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Faisal Zama Korejo | Home</title>
+  <meta name="description" content="Overview of Jenkins Controller–Agent architecture with quick-start steps and resources." />
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --panel: #121821;
+      --muted: #7c8aa0;
+      --text: #e6edf3;
+      --brand: #3b82f6;
+      --brand-2: #22d3ee;
+      --ring: rgba(59,130,246,.35);
+      --ok: #10b981;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+      --radius: 18px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+      background: radial-gradient(1200px 800px at 80% -10%, rgba(59,130,246,.15), transparent 60%),
+                  radial-gradient(1000px 700px at -10% 20%, rgba(34,211,238,.12), transparent 55%),
+                  var(--bg);
+    }
+
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(1100px, 92%); margin-inline: auto; }
+
+    /* Header */
+    header {
+      position: sticky; top: 0; z-index: 40;
+      backdrop-filter: blur(8px);
+      background: linear-gradient(to bottom, rgba(11,15,20,.75), rgba(11,15,20,.35));
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
+    .brand { display: flex; align-items: center; gap: .6rem; font-weight: 800; letter-spacing: .2px; }
+    .logo {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: conic-gradient(from 210deg, var(--brand), var(--brand-2));
+      display: grid; place-items: center; color: white; font-weight: 900;
+      box-shadow: 0 6px 20px rgba(59,130,246,.45);
+    }
+    nav a { padding: 8px 12px; border-radius: 10px; color: var(--muted); }
+    nav a:hover { background: rgba(255,255,255,.06); color: var(--text); }
+    .cta { padding: 9px 14px; border: 1px solid rgba(255,255,255,.1); border-radius: 12px; }
+
+    /* Hero */
+    .hero { display: grid; grid-template-columns: 1.2fr .8fr; gap: 36px; padding: 56px 0 30px; align-items: center; }
+    .hero h1 { font-size: clamp(28px, 4vw, 44px); line-height: 1.1; margin: 0 0 14px; }
+    .subtitle { color: var(--muted); max-width: 60ch; }
+    .pill { display: inline-flex; gap: 8px; align-items: center; padding: 6px 10px; background: rgba(59,130,246,.12); border: 1px solid rgba(59,130,246,.25); color: #dbeafe; border-radius: 999px; font-size: 13px; }
+    .actions { display: flex; gap: 12px; margin-top: 18px; }
+    .btn { padding: 11px 16px; border-radius: 14px; border: 1px solid rgba(255,255,255,.12); background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); color: var(--text); box-shadow: var(--shadow); }
+    .btn.primary { border-color: transparent; background: linear-gradient(90deg, var(--brand), var(--brand-2)); }
+
+    /* Card grid */
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 26px 0 10px; }
+    .card { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); }
+    .card h3 { margin: 6px 0 6px; font-size: 18px; }
+    .badge { font-size: 12px; color: #cbd5e1; background: rgba(255,255,255,.06); padding: 4px 8px; border-radius: 999px; border: 1px solid rgba(255,255,255,.08); }
+
+    /* Architecture */
+    .section { padding: 36px 0; }
+    .section h2 { font-size: clamp(22px, 3vw, 30px); margin: 0 0 10px; }
+    .muted { color: var(--muted); }
+    .arch { display: grid; grid-template-columns: 1fr; gap: 18px; }
+    .diagram { background: var(--panel); border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius); padding: 18px; overflow: hidden; }
+
+    /* SVG diagram styles */
+    .diagram svg { width: 100%; height: auto; }
+
+    /* Steps */
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .step { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius); padding: 18px; }
+    .step h4 { margin: 0 0 8px; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+    pre { background: #0d1117; border: 1px solid rgba(255,255,255,.08); padding: 14px; border-radius: 12px; overflow: auto; }
+
+    /* Footer */
+    footer { padding: 30px 0 60px; color: var(--muted); text-align: center; }
+
+    /* Responsive */
+    @media (max-width: 980px) {
+      .hero { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: 1fr 1fr; }
+      .steps { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      nav { display: none; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo" aria-hidden>J</div>
+        <span>Faisal Zama Korejo (Section 3 - 21sw045)</span>
+      </div>
+      <nav>
+        <a href="#architecture">Architecture</a>
+        <a href="#quickstart">Quick Start</a>
+        <a href="#resources">Resources</a>
+        <a class="cta" href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <span class="pill">Scalable CI/CD • Parallel builds • Cloud-ready</span>
+        <h1>Faisal Zama Korejo <em>Section 3 - 21sw045</em> Jenkins setup</h1>
+        <p class="subtitle">The controller (formerly “master”) schedules and orchestrates. Agents (formerly “slaves”) execute jobs across any mix of VMs, containers, or bare-metal. This homepage gives you a clear mental model and copy‑paste snippets to get started quickly.</p>
+        <div class="actions">
+          <a class="btn primary" href="#quickstart">Get Started</a>
+          <a class="btn" href="#architecture">See Architecture</a>
+        </div>
+      </div>
+      <div>
+        <div class="grid">
+          <div class="card">
+            <span class="badge">Controller</span>
+            <h3>Orchestrates builds</h3>
+            <p class="muted">Hosts UI, stores job configs, queues work, routes jobs to best-fit agents.</p>
+          </div>
+          <div class="card">
+            <span class="badge">Agents</span>
+            <h3>Do the work</h3>
+            <p class="muted">Ephemeral or static nodes for Linux, Windows, Docker, Android, iOS, and more.</p>
+          </div>
+          <div class="card">
+            <span class="badge">Scalability</span>
+            <h3>Cloud-native</h3>
+            <p class="muted">Auto-scale via Kubernetes, EC2 Fleet, or on‑prem nodes to handle peak loads.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="architecture" class="section">
+      <h2>Architecture</h2>
+      <p class="muted">The controller assigns work. Agents report capacity and run builds. Artifacts and logs flow back to the controller and external storage.</p>
+      <div class="diagram" aria-label="Controller-Agent diagram">
+        <svg viewBox="0 0 900 380" role="img" aria-labelledby="archTitle archDesc">
+          <title id="archTitle">Jenkins Controller–Agent Architecture Diagram</title>
+          <desc id="archDesc">Controller schedules and dispatches jobs to multiple agents. Agents pull dependencies, run steps, and return artifacts and logs.</desc>
+          <!-- Background grid dots -->
+          <defs>
+            <pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse">
+              <circle cx="1" cy="1" r="1" fill="rgba(255,255,255,.06)" />
+            </pattern>
+            <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stop-color="#3b82f6" />
+              <stop offset="100%" stop-color="#22d3ee" />
+            </linearGradient>
+          </defs>
+          <rect x="0" y="0" width="900" height="380" fill="url(#dots)"/>
+
+          <!-- Controller -->
+          <rect x="60" y="60" rx="16" ry="16" width="260" height="120" fill="#0f172a" stroke="rgba(255,255,255,.18)" />
+          <text x="80" y="92" fill="#93c5fd" font-size="14" font-family="inherit">Controller</text>
+          <text x="80" y="118" fill="#e2e8f0" font-size="18" font-weight="700" font-family="inherit">Scheduler & Web UI</text>
+          <text x="80" y="142" fill="#94a3b8" font-size="13" font-family="inherit">Queues jobs, selects agent, aggregates logs</text>
+
+          <!-- Agents -->
+          <rect x="540" y="40" rx="14" ry="14" width="300" height="90" fill="#0f172a" stroke="rgba(255,255,255,.18)" />
+          <text x="560" y="68" fill="#bbf7d0" font-size="14" font-family="inherit">Agent Pool A</text>
+          <text x="560" y="92" fill="#e2e8f0" font-size="16" font-weight="700" font-family="inherit">Linux / Docker</text>
+
+          <rect x="540" y="150" rx="14" ry="14" width="300" height="90" fill="#0f172a" stroke="rgba(255,255,255,.18)" />
+          <text x="560" y="178" fill="#fde68a" font-size="14" font-family="inherit">Agent Pool B</text>
+          <text x="560" y="202" fill="#e2e8f0" font-size="16" font-weight="700" font-family="inherit">Windows</text>
+
+          <rect x="540" y="260" rx="14" ry="14" width="300" height="90" fill="#0f172a" stroke="rgba(255,255,255,.18)" />
+          <text x="560" y="288" fill="#bae6fd" font-size="14" font-family="inherit">Ephemeral Agents</text>
+          <text x="560" y="312" fill="#e2e8f0" font-size="16" font-weight="700" font-family="inherit">Kubernetes</text>
+
+          <!-- Arrows from controller to agents -->
+          <path d="M320 120 C 400 120, 440 85, 540 85" stroke="url(#g1)" stroke-width="3" fill="none" />
+          <polygon points="540,85 530,80 530,90" fill="#3b82f6" />
+
+          <path d="M320 120 C 410 140, 440 180, 540 195" stroke="url(#g1)" stroke-width="3" fill="none" />
+          <polygon points="540,195 530,190 530,200" fill="#22d3ee" />
+
+          <path d="M320 120 C 410 160, 440 270, 540 305" stroke="url(#g1)" stroke-width="3" fill="none" />
+          <polygon points="540,305 530,300 530,310" fill="#60a5fa" />
+
+          <!-- Artifact store -->
+          <rect x="60" y="210" rx="16" ry="16" width="260" height="120" fill="#0f172a" stroke="rgba(255,255,255,.18)" />
+          <text x="80" y="242" fill="#a7f3d0" font-size="14" font-family="inherit">Artifacts & Logs</text>
+          <text x="80" y="266" fill="#e2e8f0" font-size="18" font-weight="700" font-family="inherit">S3 / NFS / GCS</text>
+          <text x="80" y="290" fill="#94a3b8" font-size="13" font-family="inherit">Published from agents, viewed in UI</text>
+
+          <!-- Arrows from agents back to artifacts -->
+          <path d="M540 85 C 440 90, 400 130, 320 240" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6 6" fill="none" />
+          <path d="M540 195 C 430 200, 400 230, 320 260" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6 6" fill="none" />
+          <path d="M540 305 C 430 310, 400 300, 320 290" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6 6" fill="none" />
+        </svg>
+      </div>
+    </section>
+
+    <section id="quickstart" class="section">
+      <h2>Quick Start</h2>
+      <p class="muted">Spin up a controller, connect an agent, and run a pipeline.</p>
+      <div class="steps">
+        <div class="step">
+          <h4>1) Run the Controller (Docker)</h4>
+<pre><code>docker run -d \
+  -p 8080:8080 -p 50000:50000 \
+  -v jenkins_home:/var/jenkins_home \
+  --name jenkins \
+  jenkins/jenkins:lts
+</code></pre>
+          <p class="muted">Open <code>http://localhost:8080</code>, complete setup wizard, install recommended plugins.</p>
+        </div>
+        <div class="step">
+          <h4>2) Connect an Agent (JNLP)</h4>
+<pre><code># On agent host
+curl -fsSL http://&lt;controller&gt;:8080/jnlpJars/agent.jar -o agent.jar
+java -jar agent.jar -jnlpUrl http://&lt;controller&gt;:8080/computer/&lt;agent-name&gt;/jenkins-agent.jnlp \
+  -secret &lt;secret-from-node-config&gt; -workDir "agent"
+</code></pre>
+          <p class="muted">Alternatively use SSH agents or Kubernetes plugin for auto-scaling pods.</p>
+        </div>
+        <div class="step">
+          <h4>3) Minimal Jenkinsfile</h4>
+<pre><code>pipeline {
+  agent any
+  stages {
+    stage('Build') { steps { sh 'echo Building…' } }
+    stage('Test')  { steps { sh 'echo Testing…'  } }
+    stage('Deploy'){ steps { sh 'echo Deploying…' } }
+  }
+}
+</code></pre>
+          <p class="muted">Commit this as <code>Jenkinsfile</code> and create a Pipeline job pointing to your repo.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="resources" class="section">
+      <h2>Resources</h2>
+      <p class="muted">Production tips</p>
+      <ul class="muted">
+        <li>Use labels to route jobs to the right agent capabilities (e.g., <code>linux&amp;docker</code>).</li>
+        <li>Store artifacts externally (S3/GCS/Nexus) and keep agents stateless.</li>
+        <li>Harden controller: backups, RBAC, folder-based permissions, audit trail.</li>
+        <li>Prefer ephemeral agents (Kubernetes) for clean, reproducible builds.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer id="contact" class="container">
+    <p>© <span id="y"></span> Jenkins Controller–Agent • Made for quick demos and internal docs.</p>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
+
