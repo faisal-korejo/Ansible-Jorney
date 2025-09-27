@@ -1,0 +1,39 @@
+
+# Ansible-specific
+*.retry
+*.log
+*.tmp
+*.bak
+
+# Inventory files (if sensitive, uncomment if you don't want them in git)
+# inventory/
+# hosts
+# *.ini
+# *.yaml
+# *.yml
+
+# SSH keys and credentials
+*.pem
+*.key
+*.crt
+*.vault_pass
+vault_password_file
+
+# Python-related (if using virtualenv)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+ENV/
+env/
+
+# Editor / IDE stuff
+*.swp
+*.swo
+*.swn
+*.swm
+.idea/
+.vscode/
+*.DS_Store
