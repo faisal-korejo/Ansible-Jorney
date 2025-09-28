@@ -1,0 +1,8 @@
+---
+- name: Install Docker and Jenkins using Ansible Galaxy
+  hosts: webservers
+  become: yes
+  roles:
+    - geerlingguy.docker
+    - geerlingguy.jenkins
+
